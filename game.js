@@ -1,6 +1,6 @@
 var canvas = document.getElementById("canvas");
-canvas.width = 300;
-canvas.height = 600;
+canvas.width = 400;
+canvas.height = 700;
 var ctx = canvas.getContext("2d");
 
 let score = 0; // Score initial
@@ -8,16 +8,22 @@ var x = canvas.width / 2;
 var y = canvas.height - 30;
 var dx = 0; // Modification : la vitesse initiale est de 0
 var dy = 0; // Modification : la vitesse initiale est de 0
+
+let ballImages = [
+    "ball.png",
+    "ball2.jpg"
+];
+let ballIndex = 0;
 var ballRadius = 22;
 var ballImage = new Image();
-ballImage.src = "ball.png";
+ballImage.src = ballImages[ballIndex];
 var rotationAngle = 0;
 var rotationSpeed = 0.05;
 var maxSpeed = 7;
 
-var paddleWidth = 100;
+var paddleWidth = 145;
 var paddleHeight = 20;
-var paddleY = canvas.height - paddleHeight;
+var paddleY = canvas.height - paddleHeight - 10;
 var paddleAngle1 = Math.PI / 6; // 30 degrés en radians
 var paddleAngle2 = -Math.PI / 6; // 30 degrés en radians
 var rotateStep = Math.PI / 4; // 45 degrés en radians
@@ -25,17 +31,33 @@ var paddleDown1 = 0;
 var paddleDown2 = 0;
 
 var obstacles = [{
-    radius: 26,
-    x: 90,
-    y: 172,
+    radius: 28,
+    x: 125,
+    y: 200,
 }, {
-    radius: 26,
-    x: 185,
-    y: 172,
+    radius: 28,
+    x: 245,
+    y: 200,
 }, {
-    radius: 26,
-    x: 140,
-    y: 265,
+    radius: 28,
+    x: 188,
+    y: 309,
+}, {
+    radius: 16,
+    x: 114,
+    y: 50,
+}, {
+    radius: 16,
+    x: 163,
+    y: 40,
+}, {
+    radius: 16,
+    x: 213,
+    y: 40,
+}, {
+    radius: 16,
+    x: 264,
+    y: 50,
 }]
 
 var isBallLaunched = false; // Variable pour suivre l'état du lancement de la balle
@@ -43,7 +65,7 @@ var isBallLaunched = false; // Variable pour suivre l'état du lancement de la b
 // Ajout de la musique de fond
 var audio = new Audio("background_music.mp3");
 audio.loop = true;
-audio.volume = 0.02; // Réglez le volume à 50% (0.0 à 1.0)
+audio.volume = 0.05; // Réglez le volume à 50% (0.0 à 1.0)
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -58,10 +80,18 @@ function keyDownHandler(e) {
     } else if (e.key === " ") { // Barre d'espace pour lancer la balle
         if (!isBallLaunched) {
             dx = Math.random() * 9 - 4;
-            dy = -3;
+            dy = -5;
             isBallLaunched = true;
             audio.play();
         }
+    } else if (e.key === "ArrowUp") {
+        // Flèche haut - Changer l'image de boule vers la précédente
+        ballIndex = (ballIndex - 1 + ballImages.length) % ballImages.length;
+        ballImage.src = ballImages[ballIndex];
+    } else if (e.key === "ArrowDown") {
+        // Flèche bas - Changer l'image de boule vers la suivante
+        ballIndex = (ballIndex + 1) % ballImages.length;
+        ballImage.src = ballImages[ballIndex];
     }
 }
 
