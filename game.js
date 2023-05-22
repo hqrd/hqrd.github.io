@@ -10,8 +10,10 @@ var dx = 0; // Modification : la vitesse initiale est de 0
 var dy = 0; // Modification : la vitesse initiale est de 0
 
 let ballImages = [
-    "ball.png",
-    "ball2.jpg"
+    "ball1.png",
+    "ball2.png",
+    "ball3.png",
+    "ball4.png"
 ];
 let ballIndex = 0;
 var ballRadius = 22;
